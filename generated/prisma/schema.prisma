@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Anime {
+  id            Int    @id @default(autoincrement())
+  title         String
+  titleJapanese String
+  imageIRL      String
+  synopsis      String
+  episodes      Int
+  status        String
+  score         Float
+  year          Int
+}

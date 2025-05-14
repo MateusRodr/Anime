@@ -1,0 +1,24 @@
+#Criar um projeto back-end utilizando (nodejs)
+-consumir a api de animes (...)
+-salvar nos animes no banco de dados 
+-fazer a consulta na api a cada 5 minutos e atualizar toda a base de animes 
+-disponibilizar projeto no github 
+
+
+link da api: https://api.jikan.moe/v4/anime?q=
+
+#
+#Recomendaçoes de leitura para agregar no desafio
+-schedule pattern // padrão de projeto
+-cronjob // agendamento que vai ser em 5 em 5 minutos
+-api rest // meio que um crud 
+-mock api // teste
+
+-paralelismo
+-concorrencia 
+-assincrono e sincrono
+
+bibliotecas que eu irei utilizar 
+
+//prisma 
+//axios 
