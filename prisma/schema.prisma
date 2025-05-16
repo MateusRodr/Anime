@@ -10,7 +10,7 @@ datasource db {
 
 model Anime {
   id            Int     @id @default(autoincrement())
-  title         String
+  title         String  @unique
   titleJapanese String
   imageURL      String
   synopsis      String

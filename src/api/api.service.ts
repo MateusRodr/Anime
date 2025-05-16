@@ -1,39 +1,71 @@
-import { Injectable } from '@nestjs/common';
-import { CreateApiDto } from './dto/create-api.dto';
-import { UpdateApiDto } from './dto/update-api.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
+import { PrismaService } from 'src/database/prisma.service';
+import { CreateAnimeDto } from 'src/anime/dto/create-anime.dto';
+import { Cron } from '@nestjs/schedule';
+import * as crypto from 'crypto';
 
 
 @Injectable()
 export class ApiService {
+  constructor(private readonly prisma: PrismaService) {}
 
-
-  async getData(url:string){
+  @Cron('*/5 * * * *',{
+    name: 'fetchAndStoreAnimeData',
+  })
+  async fetchAndStoreAnimeData(query: string) {
+    console.log('Fetching and storing anime data...');
     try {
-      const response = await axios.get(`https://api.jikan.moe/v4/anime?q=`);
-      return response.data
+      const response = await axios.get('https://api.jikan.moe/v4/anime', {
+        params: { q: 'naruto' },
+      });
+
+      const animes = response.data.data;
+
+      for (const item of animes) {
+        await this.prisma.anime.upsert({
+          where: { title: item.title },
+          update: {},
+          create: {
+            title: item.title,
+            titleJapanese: item.title_japanese || '',
+            imageURL: item.images.jpg.image_url || '',
+            synopsis: item.synopsis || '',
+            episodes: item.episodes || 0,
+            status: item.status || '',
+            score: item.score || 0,
+            year: item.year || 0,
+          },
+        });
+      }
+
+      return animes;
     } catch (error) {
-      return error
+      throw new NotFoundException('error fetching data from API');
     }
   }
-  
-  create(createApiDto: CreateApiDto) {
-    return 'This action adds a new api';
+
+  async create(data: CreateAnimeDto) {
+    return this.prisma.anime.create({ data });
   }
 
-  findAll() {
-    return `This action returns all api`;
+  async findAll() {
+    return this.prisma.anime.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} api`;
+  async findOne(id: number) {
+    const anime = await this.prisma.anime.findUnique({ where: { id } });
+    if (!anime) throw new NotFoundException('Anime not found');
+    return anime;
   }
 
-  update(id: number, updateApiDto: UpdateApiDto) {
-    return `This action updates a #${id} api`;
+  async update(id: number, data: Partial<CreateAnimeDto>) {
+    await this.findOne(id); 
+    return this.prisma.anime.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} api`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.anime.delete({ where: { id } });
   }
 }

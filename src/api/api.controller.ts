@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiService } from './api.service';
-import { CreateApiDto } from './dto/create-api.dto';
+import { CreateAnimeDto } from '../anime/dto/create-anime.dto';
 import { UpdateApiDto } from './dto/update-api.dto';
 
 
@@ -10,12 +10,12 @@ export class ApiController {
 
 
   @Get('getData')
-  search(@Param('url') url:string){
-    return this.apiService.getData(url);
+  search(@Query('q') query:string){
+    return this.apiService.fetchAndStoreAnimeData(query);
   }
 
   @Post()
-  create(@Body() createApiDto: CreateApiDto) {
+  create(@Body() createApiDto: CreateAnimeDto) {
     return this.apiService.create(createApiDto);
   }
 
