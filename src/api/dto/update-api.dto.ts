@@ -1,4 +1,38 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateApiDto } from './create-api.dto';
+import { CreateAnimeDto } from './create-api.dto';
+import { IsDecimal, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateApiDto extends PartialType(CreateApiDto) {}
+export class UpdateAnimeDto extends PartialType(CreateAnimeDto) {
+
+        @IsNotEmpty()
+        @IsString()
+        title:string;
+    
+        @IsNotEmpty()
+        @IsString()
+        titleJapanese:string;
+    
+        @IsNotEmpty()
+        @IsString()
+        imageIRL:string;
+    
+        @IsNotEmpty()
+        @IsString()
+        synopsis:string;
+    
+        @IsNotEmpty()
+        @IsInt()
+        episodes:number;
+    
+        @IsNotEmpty()
+        @IsString()
+        status:string;
+    
+        @IsNotEmpty()
+        @IsDecimal()
+        score: number;
+    
+        @IsNotEmpty()
+        @IsInt()
+        year: number;
+}

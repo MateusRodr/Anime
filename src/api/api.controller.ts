@@ -1,8 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiService } from './api.service';
-import { CreateAnimeDto } from '../anime/dto/create-anime.dto';
-import { UpdateApiDto } from './dto/update-api.dto';
-
+import { CreateAnimeDto } from '../api/dto/create-api.dto';
+import { UpdateAnimeDto } from './dto/update-api.dto';
 
 @Controller('api')
 export class ApiController {
@@ -30,7 +29,7 @@ export class ApiController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateApiDto: UpdateApiDto) {
+  update(@Param('id') id: string, @Body() updateApiDto: UpdateAnimeDto) {
     return this.apiService.update(+id, updateApiDto);
   }
 

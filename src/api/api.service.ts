@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from 'src/database/prisma.service';
-import { CreateAnimeDto } from 'src/anime/dto/create-anime.dto';
+import { CreateAnimeDto } from 'src/api/dto/create-api.dto';
 import { Cron } from '@nestjs/schedule';
 import * as crypto from 'crypto';
 
