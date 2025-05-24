@@ -22,3 +22,5 @@ bibliotecas que eu irei utilizar
 
 //prisma 
 //axios 
+//jest
+//cornjob
