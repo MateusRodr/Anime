@@ -18,7 +18,7 @@ export class ApiController {
     return this.apiService.create(createApiDto);
   }
 
-  @Get()
+  @Get('/anime')
   findAll() {
     return this.apiService.findAll();
   }

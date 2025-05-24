@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
-import { PrismaService } from 'src/database/prisma.service';
-import { CreateAnimeDto } from 'src/api/dto/create-api.dto';
+import { PrismaService } from '../database/prisma.service';
+import { CreateAnimeDto } from '../api/dto/create-api.dto';
 import { Cron } from '@nestjs/schedule';
+import { UpdateAnimeDto } from './dto/update-api.dto';
 
 
 @Injectable()
@@ -58,7 +59,7 @@ export class ApiService {
     return anime;
   }
 
-  async update(id: number, data: Partial<CreateAnimeDto>) {
+  async update(id: number, data: UpdateAnimeDto) {
     await this.findOne(id); 
     return this.prisma.anime.update({ where: { id }, data });
   }

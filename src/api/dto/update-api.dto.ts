@@ -14,7 +14,7 @@ export class UpdateAnimeDto extends PartialType(CreateAnimeDto) {
     
         @IsNotEmpty()
         @IsString()
-        imageIRL:string;
+        imageURL:string;
     
         @IsNotEmpty()
         @IsString()
