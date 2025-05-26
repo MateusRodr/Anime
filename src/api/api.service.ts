@@ -10,7 +10,7 @@ import { UpdateAnimeDto } from './dto/update-api.dto';
 export class ApiService {
   constructor(private readonly prisma: PrismaService) {}
 
-  @Cron('*/5 * * * *',{
+  @Cron('*/1 * * * *',{
     name: 'fetchAndStoreAnimeData',
   })
   async fetchAndStoreAnimeData(query: string) {
@@ -45,9 +45,18 @@ export class ApiService {
     }
   }
 
-  async create(data: CreateAnimeDto) {
-    return this.prisma.anime.create({ data });
+async create(data: CreateAnimeDto) {
+  const existingAnime = await this.prisma.anime.findUnique({
+    where: { title: data.title },
+  });
+
+  if (existingAnime) {
+    throw new Error('Anime with this title already exists');
   }
+
+  return this.prisma.anime.create({ data });
+}
+
 
   async findAll() {
     return this.prisma.anime.findMany();

@@ -36,7 +36,6 @@ describe('ApiController', () => {
         {
           id: 1,
           title: 'Naruto',
-          description: 'A ninja anime',
           imageUrl: 'http://example.com/naruto.jpg',
           sccore: 8.5,
         },
